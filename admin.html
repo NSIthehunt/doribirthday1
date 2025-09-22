@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <title>NSI Security System</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background-color: black;
+      color: cyan;
+      font-family: 'Courier New', monospace;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      text-align: center;
+    }
+
+    h1 {
+      font-size: 2.5em;
+      text-shadow: 0 0 10px cyan, 0 0 20px cyan;
+    }
+
+    input {
+      padding: 10px;
+      margin: 10px;
+      border: 2px solid cyan;
+      background: black;
+      color: cyan;
+      font-size: 1em;
+      text-align: center;
+    }
+
+    button {
+      padding: 10px 20px;
+      border: 2px solid cyan;
+      background: black;
+      color: cyan;
+      font-size: 1em;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background: cyan;
+      color: black;
+    }
+
+    .error {
+      color: red;
+      margin-top: 10px;
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <h1>■ NSI Security System ■</h1>
+  <p>아이디와 비밀번호를 입력하세요.</p>
+  
+  <input type="text" id="username" placeholder="아이디">
+  <br>
+  <input type="password" id="password" placeholder="비밀번호">
+  <br>
+  <button onclick="login()">접속</button>
+
+  <p id="error" class="error">경고: 아이디 또는 비밀번호 불일치</p>
+
+  <audio id="typeSound" src="https://www.soundjay.com/button/beep-07.wav"></audio>
+
+  <script>
+    const usernameInput = document.getElementById("username");
+    const passwordInput = document.getElementById("password");
+    const typeSound = document.getElementById("typeSound");
+
+    // 입력 시 타자 소리
+    function playTypeSound() {
+      typeSound.currentTime = 0;
+      typeSound.play();
+    }
+    usernameInput.addEventListener("input", playTypeSound);
+    passwordInput.addEventListener("input", playTypeSound);
+
+    function login() {
+      const username = usernameInput.value.trim();
+      const password = passwordInput.value;
+      const error = document.getElementById("error");
+
+      // 계정 데이터
+      const accounts = {
+        "sin": { password: "1234", page: "sin.html" },
+        "sa": { password: "5678", page: "sa.html" }
+      };
+
+      if (accounts[username] && accounts[username].password === password) {
+        window.location.href = accounts[username].page; // 로그인 성공 시 해당 페이지 이동
+      } else {
+        error.style.display = "block"; // 에러 메시지 표시
+      }
+    }
+  </script>
+</body>
+</html>
